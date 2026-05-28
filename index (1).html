@@ -24,6 +24,12 @@
                 <li class="nav-item"><a class="nav-link" href="#about">O nás</a></li>
                 <li class="nav-item"><a class="nav-link" href="#popular">Oblíbené</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contact">Kontakt</a></li>
+                <li class="nav-item cart-item">
+                    <a id="cart-button" class="nav-link d-flex align-items-center" href="#cart">
+                        <span class="cart-icon">🛒</span>
+                        <span id="cart-count" class="cart-count">0</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -127,36 +133,48 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="pop-card">
                             <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Cappuccino" class="pop-img">
-                            <div class="p-3">
-                                <h4 class="text-coffee-dark fw-bold">Cappuccino</h4>
-                                <p class="text-coffee-accent fw-bold">89 Kč</p>
+                            <div class="p-3 d-flex flex-column gap-3">
+                                <div>
+                                    <h4 class="text-coffee-dark fw-bold">Cappuccino</h4>
+                                    <p class="text-coffee-accent fw-bold">89 Kč</p>
+                                </div>
+                                <button type="button" class="btn btn-coffee btn-sm buy-button" data-product="Cappuccino">Koupit</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="pop-card">
                             <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Latte" class="pop-img">
-                            <div class="p-3">
-                                <h4 class="text-coffee-dark fw-bold">Latte</h4>
-                                <p class="text-coffee-accent fw-bold">89 Kč</p>
+                            <div class="p-3 d-flex flex-column gap-3">
+                                <div>
+                                    <h4 class="text-coffee-dark fw-bold">Latte</h4>
+                                    <p class="text-coffee-accent fw-bold">89 Kč</p>
+                                </div>
+                                <button type="button" class="btn btn-coffee btn-sm buy-button" data-product="Latte">Koupit</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="pop-card">
                             <img src="https://www.roastmarket.de/magazin/wp-content/uploads/2021/06/Cold-Drip.jpg?x54547" alt="Cold Brew" class="pop-img">
-                            <div class="p-3">
-                                <h4 class="text-coffee-dark fw-bold">Cold Brew</h4>
-                                <p class="text-coffee-accent fw-bold">95 Kč</p>
+                            <div class="p-3 d-flex flex-column gap-3">
+                                <div>
+                                    <h4 class="text-coffee-dark fw-bold">Cold Brew</h4>
+                                    <p class="text-coffee-accent fw-bold">95 Kč</p>
+                                </div>
+                                <button type="button" class="btn btn-coffee btn-sm buy-button" data-product="Cold Brew">Koupit</button>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="pop-card">
                             <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Moccaccino" class="pop-img">
-                            <div class="p-3">
-                                <h4 class="text-coffee-dark fw-bold">Moccaccino</h4>
-                                <p class="text-coffee-accent fw-bold">99 Kč</p>
+                            <div class="p-3 d-flex flex-column gap-3">
+                                <div>
+                                    <h4 class="text-coffee-dark fw-bold">Moccaccino</h4>
+                                    <p class="text-coffee-accent fw-bold">99 Kč</p>
+                                </div>
+                                <button type="button" class="btn btn-coffee btn-sm buy-button" data-product="Moccaccino">Koupit</button>
                             </div>
                         </div>
                     </div>
@@ -263,6 +281,172 @@
     </div>
 </footer>
 
+<!-- CART MODAL -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Váš košík</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+            </div>
+            <div class="modal-body">
+                <div id="cart-items-list"></div>
+                <div class="mt-4">
+                    <h6>Platba</h6>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-card" value="card" checked>
+                        <label class="form-check-label" for="payment-card">Kartou</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-cash" value="cash">
+                        <label class="form-check-label" for="payment-cash">Hotově</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment-online" value="online">
+                        <label class="form-check-label" for="payment-online">Online</label>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="text-muted">Celkem položek: <span id="cart-items-total">0</span></div>
+                        <div class="h5">Celkem: <span id="cart-total-price">0 Kč</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+                <button type="button" class="btn btn-coffee" id="checkoutButton">K platbě</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const productData = {
+        Cappuccino: {
+            price: 89,
+            image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
+        },
+        Latte: {
+            price: 89,
+            image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
+        },
+        'Cold Brew': {
+            price: 95,
+            image: 'https://www.roastmarket.de/magazin/wp-content/uploads/2021/06/Cold-Drip.jpg?x54547'
+        },
+        Moccaccino: {
+            price: 99,
+            image: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80'
+        }
+    };
+
+    const productCounts = {
+        Cappuccino: 0,
+        Latte: 0,
+        'Cold Brew': 0,
+        Moccaccino: 0
+    };
+
+    const cartCountElement = document.getElementById('cart-count');
+    const cartItemsList = document.getElementById('cart-items-list');
+    const cartButton = document.getElementById('cart-button');
+    const checkoutButton = document.getElementById('checkoutButton');
+    const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+
+    function getTotalCount() {
+        return Object.values(productCounts).reduce((sum, value) => sum + value, 0);
+    }
+
+    function getTotalPrice() {
+        return Object.entries(productCounts).reduce((sum, [name, count]) => {
+            return sum + count * productData[name].price;
+        }, 0);
+    }
+
+    function updateCart() {
+        const totalCount = getTotalCount();
+        cartCountElement.textContent = totalCount;
+        document.getElementById('cart-items-total').textContent = totalCount;
+        document.getElementById('cart-total-price').textContent = `${getTotalPrice()} Kč`;
+        renderCartItems();
+    }
+
+    function renderCartItems() {
+        cartItemsList.innerHTML = '';
+        const totalCount = getTotalCount();
+
+        if (totalCount === 0) {
+            cartItemsList.innerHTML = '<p class="text-muted">Košík je prázdný. Přidejte produkt pomocí tlačítka Koupit.</p>';
+            checkoutButton.disabled = true;
+            return;
+        }
+
+        checkoutButton.disabled = false;
+
+        Object.entries(productCounts).forEach(([name, count]) => {
+            if (count === 0) return;
+
+            const itemRow = document.createElement('div');
+            itemRow.className = 'd-flex align-items-center justify-content-between cart-item-row';
+            itemRow.innerHTML = `
+                <img src="${productData[name].image}" alt="${name}" class="cart-item-thumb">
+                <div class="cart-item-info ms-3 me-3">
+                    <div class="fw-semibold">${name}</div>
+                    <div class="text-muted">Cena: ${productData[name].price} Kč</div>
+                </div>
+                <div class="d-flex align-items-center gap-2 cart-item-controls">
+                    <button type="button" class="btn btn-outline-secondary btn-sm cart-decrease" data-product="${name}">−</button>
+                    <span class="fw-bold">${count}</span>
+                    <button type="button" class="btn btn-outline-secondary btn-sm cart-increase" data-product="${name}">+</button>
+                </div>
+            `;
+            cartItemsList.appendChild(itemRow);
+        });
+    }
+
+    function changeProductCount(name, delta) {
+        productCounts[name] = Math.max(0, productCounts[name] + delta);
+        updateCart();
+    }
+
+    document.querySelectorAll('.buy-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const name = button.dataset.product;
+            changeProductCount(name, 1);
+        });
+    });
+
+    cartItemsList.addEventListener('click', event => {
+        const target = event.target;
+        if (target.matches('.cart-decrease')) {
+            changeProductCount(target.dataset.product, -1);
+        }
+        if (target.matches('.cart-increase')) {
+            changeProductCount(target.dataset.product, 1);
+        }
+    });
+
+    cartButton.addEventListener('click', event => {
+        event.preventDefault();
+        updateCart();
+        cartModal.show();
+    });
+
+    checkoutButton.addEventListener('click', () => {
+        const totalCount = getTotalCount();
+        if (totalCount === 0) return;
+
+        const paymentType = document.querySelector('input[name="paymentMethod"]:checked').value;
+        const paymentText = paymentType === 'card' ? 'kartou' : paymentType === 'cash' ? 'hotově' : 'online';
+
+        alert(`Platba ${totalCount} produktů (${document.getElementById('cart-total-price').textContent}) přes ${paymentText}.`);
+
+        Object.keys(productCounts).forEach(name => productCounts[name] = 0);
+        updateCart();
+        cartModal.hide();
+    });
+
+    updateCart();
+</script>
 </body>
 </html>
